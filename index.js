@@ -62,11 +62,10 @@ app.get("/",verificaUser, (req, res) => {
     </html>
   `;
 
-  
   res.send(index);
 });
 
-// Rota do Cadastro
+// Rota do Cadastro da equipe
 app.get("/cadastroTimes",verificaUser, (req, res) => {
   let cadastro = `
     <html lang="pt-br">
@@ -123,7 +122,7 @@ app.get("/cadastroTimes",verificaUser, (req, res) => {
   res.send(cadastro);
 });
 
-// Post do Cadastro
+// Post do Cadastro da equipe (post)
 app.post("/cadastroTimes",verificaUser, (req, res) => {
   const { nome, resp, tel } = req.body;
 
@@ -209,12 +208,8 @@ app.post("/cadastroTimes",verificaUser, (req, res) => {
   }
 });
 
-// Rota do list
+// Rota do list da equipe
 app.get("/listaEquipe",verificaUser, (req, res) => {
-  let ultimo = req.cookies?.ultimo;
-  const data = new Date();
-  res.cookie("ultimo",data.toLocaleString());
-  res.setHeader("Content-type","text/html");
   let conteudo = `
     <html lang="pt-br">
       <head>
@@ -245,7 +240,8 @@ app.get("/listaEquipe",verificaUser, (req, res) => {
                           <th>Contato do Responsável</th>
                       </tr>
                   </thead>
-                  <tbody>`;
+                  <tbody>
+                  `;
 
                   for (let equipe of listaEquipes) {
                     conteudo += `
@@ -268,7 +264,7 @@ app.get("/listaEquipe",verificaUser, (req, res) => {
   res.send(conteudo);
 });
 
-// Rota do Cadastro
+// Rota do Cadastro do jogador
 app.get("/cadastrarJogador",verificaUser, (req, res) => {
   let cadastro_jogador = `
     <html lang="pt-br">
@@ -346,10 +342,13 @@ app.get("/cadastrarJogador",verificaUser, (req, res) => {
                   <div class="col-md-4">
                          <label for="opcoes">Time:</label>
                           <select id="time" name="time">
-                              <option value="">Times</option> `;
+                              <option value="">Times</option> 
+                              `;
+
                               for (let equipe of listaEquipes) {
                                   cadastro_jogador += `<option value="${equipe.nome}">${equipe.nome}</option>`;
                               }
+
                   cadastro_jogador += `    
                   </select>
                   </div>
@@ -368,7 +367,7 @@ app.get("/cadastrarJogador",verificaUser, (req, res) => {
   res.send(cadastro_jogador);
 });
 
-// Post do Cadastro
+// Post do Cadastro do jogador (post)
 app.post("/cadastrarJogador",verificaUser, (req, res) => {
   const { name, nick, lane, elo, sexo, time } = req.body;
 
@@ -408,6 +407,7 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
                       <input type="text" name="name" value="${name}">
                   </div>
                   `;
+
                   if(!name){
                   devolve_jogador += `<div>
                                 <p>Por favor, informe o nome do jogador</p>
@@ -420,6 +420,7 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
                           <input type="text" name="nick" value="${nick}">
                   </div>
                   `;
+
                   if(!nick){
                   devolve_jogador += `<div>
                                 <p>Por favor, informe o nick-name do jogador</p>
@@ -439,6 +440,7 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
                       </select>
                   </div>
                   `;
+
                   if(!lane){
                   devolve_jogador += `<div>
                                 <p>Por favor, informe a rota do jogador</p>
@@ -462,6 +464,7 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
                           </select>
                   </div>
                   `;
+
                   if(!elo){
                   devolve_jogador += `<div>
                                 <p>Por favor, informe o elo do jogador</p>
@@ -478,6 +481,7 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
                           </select>
                   </div>
                   `;
+
                   if(!sexo){
                   devolve_jogador += `<div>
                                 <p>Por favor, informe o sexo do jogador</p>
@@ -488,22 +492,25 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
                   <div class="col-md-4">
                          <label for="opcoes">Time:</label>
                           <select id="time" name="time" ">
-                              <option value="${time}">${time}</option> `;
+                              <option value="${time}">${time}</option> 
+                              `;
+
                               for (let equipe of listaEquipes) {
                                   devolve_jogador += `<option value="${equipe.nome}">${equipe.nome}</option>`;
                               }
+
                   devolve_jogador += `    
                           </select>
                   </div>
                   `;
-                    if(!time){
-                    devolve_jogador += `<div>
+
+                  if(!time){
+                  devolve_jogador += `<div>
                                   <p>Por favor, informe o time do jogador</p>
                                 </div>`;
-                    }
+                  }
 
-                    devolve_jogador += `
-
+                  devolve_jogador += `
                   <div class="col-12">
                       <button class="btn btn-primary" type="submit">Cadastrar Jogador</button>
                       <a class="btn btn-secondary" href="/">Voltar</a>
@@ -518,7 +525,7 @@ app.post("/cadastrarJogador",verificaUser, (req, res) => {
   }
 });
 
-// Rota do list
+// Rota do list do jogador
 app.get("/listaJogador",verificaUser, (req, res) => {
   let ultimo = req.cookies?.ultimo;
   const data = new Date();
@@ -584,6 +591,7 @@ app.get("/listaJogador",verificaUser, (req, res) => {
   res.send(conteudo_jogador);
 });
 
+//Rota do login
 app.get("/login", (req, res) => {
   let login = `
     <html lang="pt-br">
@@ -618,7 +626,7 @@ app.get("/login", (req, res) => {
   res.send(login);
 });
 
-// Rota do Login
+// Rota do Login (post)
 app.post("/login", (req, res) => {
   const { user, senha} = req.body;
 
@@ -645,6 +653,7 @@ app.post("/login", (req, res) => {
                       <input type="text" class="form-control" name="user" value="${user}">
                   </div>
                   `;
+
                   if(user != "admin"){
                     if(!user){
                     erro += `<div class="erro-msg">
@@ -657,12 +666,14 @@ app.post("/login", (req, res) => {
                               </div>`;
                     }
                   }
+
                   erro += `
                   <div class="col-md-4">
                       <label class="form-label">Senha</label>
                       <input type="password" class="form-control" name="senha" value="${senha}">
                   </div>
                   `;
+
                   if(senha != "12345678"){
                     erro += `<div class="erro-msg">
                                 <p>senha Incorreta</p>
@@ -673,6 +684,7 @@ app.post("/login", (req, res) => {
                                 <p>Por Favor, insirá senha</p>
                               </div>`;
                   }
+
                   erro += `
                   <div class="col-12">
                       <button class="btn btn-primary" type="submit">Entrar</button>
